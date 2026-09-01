@@ -1,0 +1,6 @@
+[
+  { "name": "model_en", "url": "https://alphacephei.com/vosk/models/vosk-model-en-us-0.22.zip", "sha256": "" },
+  { "name": "model_en_large", "url": "https://alphacephei.com/vosk/models/vosk-model-en-us-0.22.zip", "sha256": "" },
+  { "name": "model_ru_large", "url": "https://alphacephei.com/vosk/models/vosk-model-ru-0.22.zip", "sha256": "" },
+  { "name": "model_ru_small", "url": "https://alphacephei.com/vosk/models/vosk-model-small-ru-0.22.zip", "sha256": "" }
+]

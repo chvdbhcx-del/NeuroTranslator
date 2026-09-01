@@ -1,37 +1,23 @@
-﻿NeuroTranslator
+NeuroTranslator — quickstart
 
-Этот репозиторий содержит код и скрипты проекта NeuroTranslator.
+This repository contains scripts and instructions to work with NeuroTranslator.
 
-Внимание: модели (большие бинарные файлы) в репозиторий не включены.
+Quickstart
+1) Clone this repo and create a virtual env:
+   python -m venv venv
+   venv\Scripts\Activate.ps1   # Windows PowerShell
+   source venv/bin/activate     # macOS/Linux
+2) Install runtime deps (if any):
+   ./scripts/install_deps.ps1    # or ./scripts/install_deps.sh
+3) Download models (example):
+   ./scripts/download_models.ps1 -ModelsFile scripts/models.json.sample
+   ./scripts/compute_checksums.ps1 models models.json  # compute checksums locally
 
-Установка моделей:
-1) Скачайте модели и распакуйте в папку models/ рядом с корнем репозитория.
-   - model_en, model_en_large, model_ru_large, model_ru_small
+Model management
+- Compute checksums for local archives: scripts/compute_checksums.(ps1|sh)
+- Upload archives to S3: scripts/upload_to_s3.(ps1|sh)
+- Upload archives to Google Drive via rclone: scripts/upload_to_gdrive.(ps1|sh)
 
-2) Пример структуры:
-   NeuroTranslator/
-     README.md
-     models/
-       model_en/
-       model_en_large/
-       model_ru_large/
-       model_ru_small/
-
-3) Скрипт загрузки (пример PowerShell):
-   Invoke-WebRequest -Uri "<URL_TO_MODEL_ARCHIVE>" -OutFile "models\model_en.zip"; Expand-Archive "models\model_en.zip" -DestinationPath "models\model_en"
-
-Источники моделей и ссылки (поиск в репозитории модели показал следующее):
-
-- model_en / model_en_large:
-  - Базируется на Appen Kaldi model: https://github.com/Appen/UHV-OTS-Speech
-  - Возможные готовые Kaldi/Vosk модели (примерные источники): https://alphacephei.com/vosk/models
-
-- model_ru_large / model_ru_small:
-  - Русская модель для Vosk (перенесена из готовых Vosk/Kaldi моделей).
-  - Репозиторий Golos (используется как часть обучающего датасета): https://github.com/sberdevices/golos
-  - Официальная Страница моделей Vosk (официальные архивы): https://alphacephei.com/vosk/models\n\nПрямые примеры архивов (проверьте актуальность на сайте):\n- https://alphacephei.com/vosk/models/vosk-model-en-us-0.22.zip\n- https://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip\n- https://alphacephei.com/vosk/models/vosk-model-ru-0.22.zip\n- https://alphacephei.com/vosk/models/vosk-model-small-ru-0.22.zip
-
-Примечание:
-- Точные архивы моделей могут быть доступны на страницах Vosk или в отдельных репозиториях/репозиториях авторов моделей. Если хотите, могу попытаться найти конкретные URL-архивы моделей (zip/tar) и добавить их сюда — дайте знать.
-
-Автор: chvdbhcx-del
+Notes
+- For S3 upload, configure AWS CLI and provide a bucket name.
+- For Google Drive, configure rclone remote first (see rclone docs).
