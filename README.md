@@ -1,4 +1,4 @@
-NeuroTranslator
+﻿NeuroTranslator
 
 Этот репозиторий содержит код и скрипты проекта NeuroTranslator.
 
@@ -29,7 +29,7 @@ NeuroTranslator
 - model_ru_large / model_ru_small:
   - Русская модель для Vosk (перенесена из готовых Vosk/Kaldi моделей).
   - Репозиторий Golos (используется как часть обучающего датасета): https://github.com/sberdevices/golos
-  - Официальная страница моделей Vosk: https://alphacephei.com/vosk/models
+  - Официальная Страница моделей Vosk (официальные архивы): https://alphacephei.com/vosk/models\n\nПрямые примеры архивов (проверьте актуальность на сайте):\n- https://alphacephei.com/vosk/models/vosk-model-en-us-0.22.zip\n- https://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip\n- https://alphacephei.com/vosk/models/vosk-model-ru-0.22.zip\n- https://alphacephei.com/vosk/models/vosk-model-small-ru-0.22.zip
 
 Примечание:
 - Точные архивы моделей могут быть доступны на страницах Vosk или в отдельных репозиториях/репозиториях авторов моделей. Если хотите, могу попытаться найти конкретные URL-архивы моделей (zip/tar) и добавить их сюда — дайте знать.
