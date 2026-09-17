@@ -1,5 +1,56 @@
 # NeuroTranslator
 
+## Быстрая установка / Quick install
+
+**Готовый бинарник (Windows):** скачайте `neurotranslator.exe` со страницы
+[Releases](https://github.com/chvdbhcx-del/NeuroTranslator/releases) — распаковка/установка не нужны,
+просто запустите:
+
+```powershell
+.\neurotranslator.exe --help
+.\neurotranslator.exe download scripts\models.json.sample
+```
+
+Бинарник собирается автоматически в GitHub Actions (см. `.github/workflows/build.yml`)
+и прикладывается к каждому релизу и к артефактам сборки.
+
+**Установка одной строкой из исходников:**
+
+Linux / macOS:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/chvdbhcx-del/NeuroTranslator/main/install.sh | bash
+```
+
+Windows PowerShell:
+
+```powershell
+irm https://raw.githubusercontent.com/chvdbhcx-del/NeuroTranslator/main/install.ps1 | iex
+```
+
+**Через pip / pipx** (нужен только Python 3.8+):
+
+```bash
+pipx install git+https://github.com/chvdbhcx-del/NeuroTranslator.git
+# или
+pip install git+https://github.com/chvdbhcx-del/NeuroTranslator.git
+```
+
+После установки доступна команда `neurotranslator`:
+
+```bash
+neurotranslator --help
+neurotranslator download scripts/models.json.sample   # скачать и проверить модели
+neurotranslator checksums --models-dir models          # посчитать SHA-256
+neurotranslator list scripts/models.json.sample        # показать список моделей
+```
+
+> Примечание: `neurotranslator` — CLI-обёртка (только стандартная библиотека Python)
+> над скриптами из `scripts/`. Отдельного Android-приложения в репозитории нет,
+> поэтому `.apk` не собирается; для десктопа поставляется `.exe`.
+
+---
+
 ## О проекте
 
 NeuroTranslator — набор скриптов для установки зависимостей, скачивания и проверки моделей (SHA-256), выгрузки в S3 или Google Drive.
