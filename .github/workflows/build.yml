@@ -42,12 +42,16 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Install PyInstaller
-        run: python -m pip install --upgrade pip pyinstaller
+      - name: Install package and PyInstaller
+        # Installing the package makes `neurotranslator` importable so
+        # PyInstaller bundles it into the frozen executable.
+        run: |
+          python -m pip install --upgrade pip pyinstaller
+          python -m pip install .
       - name: Build single-file executable
         run: >
           pyinstaller --onefile --name neurotranslator
-          --distpath dist packaging/entrypoint.py
+          --paths . --distpath dist packaging/entrypoint.py
       - name: Smoke-test the executable
         run: |
           dist\neurotranslator.exe version
