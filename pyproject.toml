@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "neurotranslator"
+version = "0.1.0"
+description = "NeuroTranslator model toolkit — download, verify and checksum Vosk models (stdlib only)."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [{ name = "NeuroTranslator contributors" }]
+keywords = ["vosk", "models", "speech", "download", "checksum"]
+# No runtime dependencies on purpose: the CLI uses only the standard library
+# so it can be frozen into a single self-contained executable.
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/chvdbhcx-del/NeuroTranslator"
+Repository = "https://github.com/chvdbhcx-del/NeuroTranslator"
+
+[project.scripts]
+neurotranslator = "neurotranslator.cli:main"
+
+[project.optional-dependencies]
+build = ["pyinstaller>=6.0"]
+
+[tool.setuptools]
+packages = ["neurotranslator"]

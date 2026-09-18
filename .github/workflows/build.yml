@@ -1,0 +1,75 @@
+name: build
+
+on:
+  push:
+    branches: ["**"]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  # Fast sanity checks so we never ship a broken CLI or broken scripts.
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Byte-compile the Python package
+        run: python -m compileall neurotranslator packaging
+      - name: Smoke-test the CLI
+        run: |
+          python -m neurotranslator version
+          python -m neurotranslator list scripts/models.json.sample
+      - name: Check shell scripts parse
+        run: |
+          for f in scripts/*.sh install.sh; do
+            echo "bash -n $f"
+            bash -n "$f"
+          done
+
+  # Produce a ready-to-run Windows .exe on every run, and attach it to a
+  # GitHub Release on tags and manual dispatches.
+  build-windows:
+    needs: lint
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install package and PyInstaller
+        # Installing the package makes `neurotranslator` importable so
+        # PyInstaller bundles it into the frozen executable.
+        run: |
+          python -m pip install --upgrade pip pyinstaller
+          python -m pip install .
+      - name: Build single-file executable
+        run: >
+          pyinstaller --onefile --name neurotranslator
+          --paths . --distpath dist packaging/entrypoint.py
+      - name: Smoke-test the executable
+        run: |
+          dist\neurotranslator.exe version
+          dist\neurotranslator.exe list scripts/models.json.sample
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: neurotranslator-windows-exe
+          path: dist/neurotranslator.exe
+          if-no-files-found: error
+      - name: Attach executable to release
+        if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_dispatch'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/neurotranslator.exe
+          tag_name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || 'latest' }}
+          name: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || 'Latest build' }}
+          draft: false
+          prerelease: ${{ !startsWith(github.ref, 'refs/tags/') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
